@@ -12,7 +12,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@v4.3.4
       with:
         server: ftp.z8tech.one
-        username: ${{ secrets.FTPUSERNAME }}
-        password: ${{ secrets.FTPPASSWORD }}
+        username: z8techone_Test@test.z8tech.one
+        password: E}0WO]RUYLKG
         protocol: ftps
         port: 21 # todo replace with your web hosts ftps port
