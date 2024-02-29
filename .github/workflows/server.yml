@@ -1,18 +1,35 @@
 on: push
 name: 🚀 Deploy website on push
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
+  build:
+    name: 🛠️ Build
     runs-on: ubuntu-latest
     steps:
     - name: 🚚 Get latest code
       uses: actions/checkout@v3
 
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+    - name: 📦 Archive website files
+      uses: actions/upload-artifact@v2
       with:
-        server: ftp.z8tech.one
-        username: z8techone_Test@test.z8tech.one
-        password: E}0WO]RUYLKG
-        protocol: ftps
-        port: 21 # todo replace with your web hosts ftps port
+        name: website
+        path: .  # Change this to your website's directory if necessary
+
+  deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: 📂 Download website files
+      uses: actions/download-artifact@v2
+      with:
+        name: website
+
+    - name: 🚚 Deploy via FTP
+      uses: appleboy/ftp-action@master
+      with:
+        host: z8techone_Test@test.z8tech.one
+        username: ${{ secrets.FTPUSERNAME }}
+        password: ${{ secrets.FTPPASSWORD }}
+        port: 21
+         # Change this to the directory where your website files are stored
+        # Change this to the directory on your server where you want to deploy the files
